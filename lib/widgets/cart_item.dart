@@ -9,6 +9,7 @@ class CartItem extends StatelessWidget {
   final double price;
   final int quantity;
   final String title;
+  final String image;
 
   CartItem(
     this.id,
@@ -16,6 +17,7 @@ class CartItem extends StatelessWidget {
     this.price,
     this.quantity,
     this.title,
+    this.image,
   );
 
   @override
@@ -41,25 +43,25 @@ class CartItem extends StatelessWidget {
         return showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: Text('Are you sure?'),
-                content: Text(
-                  'Do you want to remove the item from the cart?',
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('No'),
-                    onPressed: () {
-                      Navigator.of(ctx).pop(false);
-                    },
-                  ),
-                  FlatButton(
-                    child: Text('Yes'),
-                    onPressed: () {
-                      Navigator.of(ctx).pop(true);
-                    },
-                  ),
-                ],
+            title: Text('Are you sure?'),
+            content: Text(
+              'Do you want to remove the item from the cart?',
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
               ),
+              FlatButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Navigator.of(ctx).pop(true);
+                },
+              ),
+            ],
+          ),
         );
       },
       onDismissed: (direction) {
@@ -73,16 +75,17 @@ class CartItem extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(8),
           child: ListTile(
-            leading: CircleAvatar(
-              child: Padding(
-                padding: EdgeInsets.all(5),
-                child: FittedBox(
-                  child: Text('\$$price'),
-                ),
+            leading: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
               ),
+              child: Image.network(image),
             ),
             title: Text(title),
-            subtitle: Text('Total: \$${(price * quantity)}'),
+            subtitle: Text(
+              '\$${(price * quantity)}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             trailing: Text('$quantity x'),
           ),
         ),

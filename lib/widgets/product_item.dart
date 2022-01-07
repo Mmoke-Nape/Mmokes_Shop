@@ -92,7 +92,7 @@ class ProductItem extends StatelessWidget {
                       // color: Colors.amber,
                       width: 115,
                       child: Text(
-                        '\$140',
+                        '\$${product.price}',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -116,7 +116,8 @@ class ProductItem extends StatelessWidget {
                 child: IconButton(
                   splashRadius: 25,
                   onPressed: () {
-                    cart.addItem(product.id, product.price, product.title);
+                    cart.addItem(product.id, product.price, product.title,
+                        product.imageUrl);
                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
