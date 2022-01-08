@@ -19,41 +19,43 @@ class AuthScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     // transformConfig.translate(-10.0);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          ClipPath(
-            clipper: WaveClipperTwo(),
-            child: Container(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: <Widget>[
+            ClipPath(
+              clipper: WaveClipperTwo(),
+              child: Container(
+                  width: size.width,
+                  height: size.height * .5,
+                  color: Theme.of(context).primaryColor),
+            ),
+            SingleChildScrollView(
+              child: Container(
+                height: size.height,
                 width: size.width,
-                height: size.height * .5,
-                color: Theme.of(context).primaryColor),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              height: size.height,
-              width: size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    height: size.height * .3,
-                    child: SvgPicture.asset('assets/icons/logo.svg'),
-                  ),
-                  const SizedBox(height: 30),
-                  Flexible(
-                    flex: size.width > 600 ? 2 : 1,
-                    child: AuthCard(),
-                  ),
-                ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    const SizedBox(height: 30),
+                    SizedBox(
+                      height: size.height * .3,
+                      child: SvgPicture.asset('assets/icons/logo.svg'),
+                    ),
+                    const SizedBox(height: 30),
+                    Flexible(
+                      flex: size.width > 600 ? 2 : 1,
+                      child: AuthCard(),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

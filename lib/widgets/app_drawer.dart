@@ -1,3 +1,4 @@
+import 'package:Shop_App/helpers/constants.dart';
 import 'package:Shop_App/helpers/custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,9 +15,12 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           AppBar(
             title: Text('Hello Friend!'),
+            backgroundColor: Theme.of(context).primaryColor,
             automaticallyImplyLeading: false,
           ),
-          Divider(),
+          // Divider(
+          //   color: Theme.of(context).primaryColor,
+          // ),
           ListTile(
             leading: Icon(Icons.shop),
             title: Text('Shop'),
@@ -24,7 +28,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
-          Divider(),
+          Divider(color: Theme.of(context).primaryColor),
           ListTile(
             leading: Icon(Icons.payment),
             title: Text('Orders'),
@@ -34,7 +38,7 @@ class AppDrawer extends StatelessWidget {
               // Navigator.of(context).pushReplacement(CustomRoute(builder: (context) => OrdersScreen(),));
             },
           ),
-          Divider(),
+          Divider(color: Theme.of(context).primaryColor),
           ListTile(
             leading: Icon(Icons.edit),
             title: Text('Manage Products'),
@@ -43,7 +47,7 @@ class AppDrawer extends StatelessWidget {
                   .pushReplacementNamed(UserProductsScreen.routeName);
             },
           ),
-          Divider(),
+          Divider(color: Theme.of(context).primaryColor),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
@@ -56,6 +60,7 @@ class AppDrawer extends StatelessWidget {
               Provider.of<Auth>(context, listen: false).logout();
             },
           ),
+          Divider(color: Theme.of(context).primaryColor),
         ],
       ),
     );

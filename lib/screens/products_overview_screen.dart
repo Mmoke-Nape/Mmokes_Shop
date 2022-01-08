@@ -53,63 +53,66 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: grey,
-      appBar: AppBar(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: grey,
-        elevation: 0,
-        title: Text(
-          'Products',
-          style: Theme.of(context).textTheme.bodyText1.copyWith(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 19),
-        ),
-        actions: <Widget>[
-          PopupMenuButton(
-            onSelected: (FilterOptions selectedValue) {
-              setState(() {
-                if (selectedValue == FilterOptions.Favorites) {
-                  _showOnlyFavorites = true;
-                } else {
-                  _showOnlyFavorites = false;
-                }
-              });
-            },
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                child: Text('Only Favorites'),
-                value: FilterOptions.Favorites,
-              ),
-              PopupMenuItem(
-                child: Text('Show All'),
-                value: FilterOptions.All,
-              ),
-            ],
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 10,
+          title: Text(
+            'Products',
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                fontWeight: FontWeight.bold, fontSize: 19, color: Colors.white),
           ),
-          Consumer<Cart>(
-            builder: (_, cart, ch) => Badge(
-              child: ch,
-              value: cart.itemCount.toString(),
-              color: Theme.of(context).primaryColor,
-            ),
-            child: IconButton(
-              icon: SvgPicture.asset('assets/icons/shopping-cart.svg'),
-              onPressed: () {
-                Navigator.of(context).pushNamed(CartScreen.routeName);
+          actions: <Widget>[
+            PopupMenuButton(
+              onSelected: (FilterOptions selectedValue) {
+                setState(() {
+                  if (selectedValue == FilterOptions.Favorites) {
+                    _showOnlyFavorites = true;
+                  } else {
+                    _showOnlyFavorites = false;
+                  }
+                });
               },
+              icon: Icon(
+                Icons.more_vert,
+                size: 25,
+              ),
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  child: Text('Only Favorites'),
+                  value: FilterOptions.Favorites,
+                ),
+                PopupMenuItem(
+                  child: Text('Show All'),
+                  value: FilterOptions.All,
+                ),
+              ],
             ),
-          ),
-        ],
+            Consumer<Cart>(
+              builder: (_, cart, ch) => Badge(
+                child: ch,
+                value: cart.itemCount.toString(),
+                color: Colors.red,
+              ),
+              child: IconButton(
+                icon: SvgPicture.asset('assets/icons/shopping-cart.svg',
+                    color: Colors.white, height: 26),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                },
+              ),
+            ),
+          ],
+        ),
+        drawer: AppDrawer(),
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ProductsGrid(_showOnlyFavorites),
       ),
-      drawer: AppDrawer(),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ProductsGrid(_showOnlyFavorites),
     );
   }
 }

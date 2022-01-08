@@ -1,3 +1,5 @@
+import 'package:Shop_App/helpers/constants.dart';
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,17 +15,29 @@ class ProductsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
     final products = showFavs ? productsData.favoriteItems : productsData.items;
-    return GridView.builder(
+    return LiveGrid.options(
+      options: options,
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
-      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+      itemBuilder: (ctx, i, Animation<double> animation) =>
+          ChangeNotifierProvider.value(
         // builder: (c) => products[i],
         value: products[i],
-        child: ProductItem(
-            // products[i].id,
-            // products[i].title,
-            // products[i].imageUrl,
-            ),
+        child: FadeTransition(
+          opacity: Tween<double>(
+            begin: 0,
+            end: 1,
+          ).animate(animation),
+          // And slide transition
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(0, -0.1),
+              end: Offset.zero,
+            ).animate(animation),
+            // Paste you Widget
+            child: ProductItem(),
+          ),
+        ),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

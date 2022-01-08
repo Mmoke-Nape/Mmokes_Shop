@@ -1,6 +1,7 @@
 import 'package:Shop_App/helpers/constants.dart';
 import 'package:Shop_App/widgets/badge.dart';
 import 'package:Shop_App/widgets/cart_item.dart';
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,24 +23,23 @@ class CartScreen extends StatelessWidget {
         body: Column(
           children: <Widget>[
             Container(
-              color: grey,
               height: 60,
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 10,
               ),
+              color: Theme.of(context).primaryColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BackButton(),
+                  BackButton(color: Colors.white),
+                  // Spacer(),
                   Text(
                     'My Cart',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.headline6.copyWith(
+                        fontWeight: FontWeight.bold, color: Colors.white),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(),
                 ],
               ),
             ),
@@ -61,15 +61,35 @@ class CartScreen extends StatelessWidget {
                         ],
                       ),
                     )
-                  : ListView.builder(
+                  : LiveList.options(
+                      options: options,
                       itemCount: cart.items.length,
-                      itemBuilder: (ctx, i) => CartItem(
-                        cart.items.values.toList()[i].id,
-                        cart.items.keys.toList()[i],
-                        cart.items.values.toList()[i].price,
-                        cart.items.values.toList()[i].quantity,
-                        cart.items.values.toList()[i].title,
-                        cart.items.values.toList()[i].image,
+                      itemBuilder: (
+                        ctx,
+                        i,
+                        Animation<double> animation,
+                      ) =>
+                          FadeTransition(
+                        opacity: Tween<double>(
+                          begin: 0,
+                          end: 1,
+                        ).animate(animation),
+                        // And slide transition
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: Offset(0, -0.1),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          // Paste you Widget
+                          child: CartItem(
+                            cart.items.values.toList()[i].id,
+                            cart.items.keys.toList()[i],
+                            cart.items.values.toList()[i].price,
+                            cart.items.values.toList()[i].quantity,
+                            cart.items.values.toList()[i].title,
+                            cart.items.values.toList()[i].image,
+                          ),
+                        ),
                       ),
                     ),
             ),
